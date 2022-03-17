@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_111519) do
+ActiveRecord::Schema.define(version: 2022_03_16_192104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,15 @@ ActiveRecord::Schema.define(version: 2022_03_16_111519) do
     t.string "path", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "router_id"
     t.index ["path"], name: "index_post_router_items_on_path", unique: true
+    t.index ["router_id"], name: "index_post_router_items_on_router_id"
+  end
+
+  create_table "post_routers", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "posts", force: :cascade do |t|
@@ -31,5 +39,6 @@ ActiveRecord::Schema.define(version: 2022_03_16_111519) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "post_router_items", "post_routers", column: "router_id", on_delete: :nullify
   add_foreign_key "post_router_items", "posts", on_delete: :cascade
 end
