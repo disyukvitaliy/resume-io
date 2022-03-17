@@ -1,0 +1,7 @@
+<% router_items.each do |router_item| %>
+  <li style="font-weight: <%= router_item.id == active_item_id ? 'bold' : 'normal' %>">
+    <a href="<%= router_item.path %>">
+      <%= router_item.post.title %>
+    </a>
+  </li>
+<% end %>

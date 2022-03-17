@@ -1,13 +1,28 @@
 <% if post_router_item.router_id? %>
-  <% router_items = post_router_item.router.items.includes(:post).references(:post).merge(Post.active) %>
+  <!--TODO: get rid of the queries and complex logic and use presenter class. For example app/presenters/post_router_presenter.rb-->
 
-  <ul id="post-router">
-    <% router_items.each do |router_item| %>
-    <li style="font-weight: <%= router_item.id == post_router_item.id ? 'bold' : 'normal' %>">
-      <a href="<%= router_item.path %>">
-        <%= router_item.post.title %>
-      </a>
-    </li>
-    <% end %>
+  <% router_items = post_router_item.router.items.includes(:post).references(:post).merge(Post.active) %>
+  <% sections = PostRouterSection.where(id: router_items.map(&:section_id)) %>
+
+  <ul>
+    <%=
+      render partial: 'router_list', locals: {
+        router_items: router_items.select { |router_item| router_item.section_id.nil? },
+        active_item_id: post_router_item.id
+      }
+    %>
   </ul>
+
+  <% sections.each do |section| %>
+    <ul>
+      <%= section.title %>
+
+      <%=
+        render partial: 'router_list', locals: {
+          router_items: router_items.select { |router_item| router_item.section_id == section.id },
+          active_item_id: post_router_item.id
+        }
+      %>
+    </ul>
+  <% end %>
 <% end %>

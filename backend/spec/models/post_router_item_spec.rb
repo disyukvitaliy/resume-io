@@ -19,4 +19,13 @@ RSpec.describe PostRouterItem do
         .to change { post_router_item.reload.router_id }.to(nil)
     end
   end
+
+  describe 'deletion of related section' do
+    let!(:post_router_item) { create(:post_router_item, :with_section) }
+
+    it do
+      expect { post_router_item.section.destroy! }
+        .to change { post_router_item.reload.section_id }.to(nil)
+    end
+  end
 end

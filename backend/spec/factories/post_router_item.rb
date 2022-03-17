@@ -10,5 +10,9 @@ FactoryBot.define do
     trait :with_router do
       router factory: :post_router
     end
+
+    trait :with_section do
+      section factory: :post_router_section
+    end
   end
 end
