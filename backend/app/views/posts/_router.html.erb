@@ -1,0 +1,13 @@
+<% if post_router_item.router_id? %>
+  <% router_items = post_router_item.router.items.includes(:post).references(:post).merge(Post.active) %>
+
+  <ul id="post-router">
+    <% router_items.each do |router_item| %>
+    <li style="font-weight: <%= router_item.id == post_router_item.id ? 'bold' : 'normal' %>">
+      <a href="<%= router_item.path %>">
+        <%= router_item.post.title %>
+      </a>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

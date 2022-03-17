@@ -2,5 +2,10 @@
   <%= @post.title %>
 </h1>
 <content>
-  <%= @post.body %>
+  <div style="width: 30%; float: left">
+    <%= render partial: 'router', locals: { post_router_item: @post_router_item } %>
+  </div>
+  <div style="width: 70%">
+    <%= @post.body %>
+  </div>
 </content>
